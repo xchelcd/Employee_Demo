@@ -37,7 +37,7 @@ class RegisterDialog(
         binding.registerButton.setOnClickListener {
             val email: String = binding.emailEditText.text.toString()
             val password: String = binding.passwordEditText.text.toString()
-            if (email.isNotBlank() && password.isNotBlank())
+            if (email.isNotBlank() && password.isNotBlank()) {
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -55,6 +55,9 @@ class RegisterDialog(
                             ).show()
                         }
                     }
+            } else Toast.makeText(requireContext(), "Empty fields", Toast.LENGTH_SHORT).show()
         }
+
+        binding.closeImageButton.setOnClickListener { dismiss() }
     }
 }

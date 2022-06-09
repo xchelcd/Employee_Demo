@@ -4,6 +4,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <ImageButton
+        android:id="@+id/closeImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:background="@drawable/ic_close"
+        android:padding="16dp" />
+
     <com.google.android.material.textfield.TextInputLayout
         style="@style/custom_editText_login"
         android:layout_width="match_parent"
