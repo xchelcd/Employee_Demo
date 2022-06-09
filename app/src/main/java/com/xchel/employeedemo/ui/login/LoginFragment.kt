@@ -6,10 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.xchel.employeedemo.R
 import com.xchel.employeedemo.databinding.FragmentLoginBinding
@@ -35,26 +33,36 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        auth = FirebaseAuth.getInstance()
     }
 
     private fun listeners() {
         binding.signInButton.setOnClickListener {
-            //val googleConfig = GoogleSignInOptions
-            //    .Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
-            //    .requestIdToken(getString(R.string.web_client_id))
-            //    .requestEmail()
-            //    .build()
+            val email: String = binding.emailEditText.text.toString()
+            val password: String = binding.passwordEditText.text.toString()
 
-            val signInRequest = BeginSignInRequest.builder()
-                .setGoogleIdTokenRequestOptions(
-                    BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                        .setSupported(true)
-                        // Your server's client ID, not your Android client ID.
-                        .setServerClientId(getString(R.string.web_client_id))
-                        // Only show accounts previously used to sign in.
-                        //.setFilterByAuthorizedAccounts(true)
-                        .build()
-                ).build()
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "signInWithEmail:success")
+                        val user = auth.currentUser
+                        findNavController().navigate(R.id.menuFragment)
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithEmail:failure", task.exception)
+                        Toast.makeText(
+                            requireContext(), "Authentication failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+        }
+
+        binding.registerButton.setOnClickListener {
+            RegisterDialog(auth) { user ->
+
+            }.show(parentFragmentManager, "RegisterDialog")
         }
 
         binding.testButton.setOnClickListener {
@@ -64,6 +72,14 @@ class LoginFragment : Fragment() {
 
     private fun inits() {
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            findNavController().navigate(R.id.menuFragment)
+        }
     }
 
     override fun onDestroyView() {

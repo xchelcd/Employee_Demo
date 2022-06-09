@@ -6,8 +6,9 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26974358974358975" />
         <entry key="app/src/main/res/layout/cell_employee.xml" value="0.26974358974358975" />
         <entry key="app/src/main/res/layout/dialog_employee_added.xml" value="0.26974358974358975" />
+        <entry key="app/src/main/res/layout/dialog_register.xml" value="0.27395833333333336" />
         <entry key="app/src/main/res/layout/fragment_employees.xml" value="0.26974358974358975" />
-        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.13125" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.26974358974358975" />
         <entry key="app/src/main/res/layout/fragment_menu.xml" value="0.26974358974358975" />
         <entry key="app/src/main/res/layout/fragment_new_employee.xml" value="0.26974358974358975" />
