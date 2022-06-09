@@ -53,7 +53,7 @@ class EmployeeRepository @Inject constructor(
                                 data["name"] as String,
                                 convertToLocation(data["location"] as HashMap<String, Double>),
                                 data["mail"] as String,
-                                data["primaryId"] as String
+                                data["primaryId"] as? String ?: "noId"
                             )
                         )
                     }

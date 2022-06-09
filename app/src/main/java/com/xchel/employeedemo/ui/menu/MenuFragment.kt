@@ -1,16 +1,22 @@
 package com.xchel.employeedemo.ui.menu
 
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.xchel.employeedemo.R
 import com.xchel.employeedemo.databinding.FragmentMenuBinding
+import com.xchel.employeedemo.domain.isFileExists
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -27,9 +33,13 @@ class MenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMenuBinding.inflate(layoutInflater)
-        viewModel.fetchData()
+        requireDownloadData()
         listeners()
         return binding.root
+    }
+
+    private fun requireDownloadData() {
+        if (!isFileExists("employees_data.json")) { viewModel.fetchData() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

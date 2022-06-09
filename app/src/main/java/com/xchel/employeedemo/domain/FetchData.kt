@@ -1,8 +1,11 @@
 package com.xchel.employeedemo.domain
 
 import android.app.DownloadManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Context.DOWNLOAD_SERVICE
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
@@ -37,17 +40,20 @@ class FetchData @Inject constructor(
 
     private val TAG = this.javaClass.simpleName
 
+    private var fileName = ""
+    private var zipName = ""
+
     suspend operator fun invoke(callback: () -> Unit): DataResponse? {
         val response = service.fetchData()
         response?.let { data ->
             if (data.success) {
-                val zipName = downloadFile(data.data)
-                val fileName = unpackZip(
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/",
-                    zipName
-                )
-                val jsonString = readJsonFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/", fileName)
-                getListObject(jsonString)
+                zipName = downloadFile(data.data)
+                //fileName = unpackZip(
+                //    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/",
+                //    zipName
+                //)
+                //val jsonString = readJsonFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/", fileName)
+                //getListObject(jsonString)
             }
         } ?: also { callback() }
         return response
@@ -86,6 +92,7 @@ class FetchData @Inject constructor(
 
     // file:///storage/emulated/0/Download/employees_data.json.zip
     private fun downloadFile(data: File): String {
+        onCompleted()
         val url = data.file
         val request = DownloadManager.Request(Uri.parse(url))
         val title = URLUtil.guessFileName(url, null, null)
@@ -140,19 +147,42 @@ class FetchData @Inject constructor(
         return filename
     }
 
+    private fun onCompleted() {
+        val receiver: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val action = intent.action
+                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE == action) {
+                    Toast.makeText(context, "Completed", Toast.LENGTH_SHORT).show()
+                    fileName = unpackZip(
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/",
+                        zipName
+                    )
+                    val jsonString = readJsonFile(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path + "/", fileName)
+                    getListObject(jsonString)
+                }
+            }
+        }
+
+        context.registerReceiver(
+            receiver, IntentFilter(
+                DownloadManager.ACTION_DOWNLOAD_COMPLETE
+            )
+        )
+    }
+
     //https://firebasestorage.googleapis.com/v0/b/example-e6943.appspot.com/o/employees_data.json.zip?alt=media&token=02daec6d-cd37-48eb-bfa5-da5862f40b97
 }
 
 // Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path
 // /storage/emulated/0/Download/employees_data.json.zip
 // java.io.File("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path}/employees_data.json.zip").exists()
-private fun isFileExists(fileName: String): Boolean {
+fun isFileExists(fileName: String): Boolean {
     val folder1 =
         java.io.File("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path}/${fileName}")
     return folder1.exists()
 }
 
-private fun deleteFile(fileName: String): Boolean {
+fun deleteFile(fileName: String): Boolean {
     val folder1 =
         java.io.File("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).path}/${fileName}")
     return folder1.delete()

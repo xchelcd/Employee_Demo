@@ -7,10 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.xchel.employeedemo.R
 import com.xchel.employeedemo.databinding.FragmentLoginBinding
+import java.util.*
 
 class LoginFragment : Fragment() {
 
@@ -74,7 +77,10 @@ class LoginFragment : Fragment() {
     }
 
     private fun inits() {
-
+        FirebaseAnalytics.getInstance(requireContext()).logEvent(
+            FirebaseAnalytics.Event.APP_OPEN,
+            bundleOf("date" to Date())
+        )
     }
 
     override fun onStart() {
