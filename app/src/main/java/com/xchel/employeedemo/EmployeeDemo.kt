@@ -1,5 +1,7 @@
 package com.xchel.employeedemo
 
-class EmployeeDemo {
-    
-}
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class EmployeeDemo: Application()

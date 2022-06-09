@@ -9,5 +9,40 @@
         android:id="@+id/loginFragment"
         android:name="com.xchel.employeedemo.ui.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeesFragment"
+        android:name="com.xchel.employeedemo.ui.menu.employees.EmployeesFragment"
+        android:label="fragment_employees"
+        tools:layout="@layout/fragment_employees">
+        <action
+            android:id="@+id/action_employeesFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.xchel.employeedemo.ui.menu.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.xchel.employeedemo.ui.menu.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu">
+        <action
+            android:id="@+id/action_menuFragment_to_employeesFragment"
+            app:destination="@id/employeesFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_newEmployeeFragment"
+            app:destination="@id/newEmployeeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newEmployeeFragment"
+        android:name="com.xchel.employeedemo.ui.menu.employees.new_employee.NewEmployeeFragment"
+        android:label="fragment_new_employee"
+        tools:layout="@layout/fragment_new_employee" />
 </navigation>

@@ -3,7 +3,7 @@ package com.xchel.employeedemo.ui.menu.employees
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.xchel.employeedemo.Employee
+import com.xchel.employeedemo.data.model.Employee
 import com.xchel.employeedemo.databinding.CellEmployeeBinding
 
 class EmployeeAdapter(

@@ -1,22 +1,26 @@
-package com.xchel.employeedemo.ui.menu.employees
+package com.xchel.employeedemo.ui.menu.employees.new_employee
 
 import android.os.Bundle
-import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.xchel.employeedemo.Employee
-import com.xchel.employeedemo.Location
-import com.xchel.employeedemo.R
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.xchel.employeedemo.data.model.Employee
+import com.xchel.employeedemo.data.model.Location
 import com.xchel.employeedemo.databinding.FragmentNewEmployeeBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 
+@AndroidEntryPoint
 class NewEmployeeFragment : Fragment() {
 
     private var _binding: FragmentNewEmployeeBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: NewEmployeeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,9 +38,9 @@ class NewEmployeeFragment : Fragment() {
                 val mail = binding.mailEditText.text.toString()
                 val lat = binding.latEditText.text.toString()
                 val log = binding.logEditText.text.toString()
-                if (checkFields(name, mail, lat, log)) {
+                if (!checkFields(name, mail, lat, log)) {
                     val location = Location(lat.toDouble(), log.toDouble())
-                    val employee = Employee(-1, name, location, mail)
+                    val employee = Employee(0, name, location, mail, java.util.UUID.randomUUID().toString())
                     saveEmployee(employee)
                 } else Toast.makeText(requireContext(), "Something was wrong", Toast.LENGTH_SHORT).show()
             }
@@ -51,7 +55,21 @@ class NewEmployeeFragment : Fragment() {
     }
 
     private fun saveEmployee(employee: Employee) {
-        // call viewmodel to save employee
+        viewModel.saveEmployee(employee)
+        clearData()
+        EmployeeAddedDialog(employee) { // try again
+            if (it) clearData()
+            else  findNavController().popBackStack()
+        }.show(parentFragmentManager, "EmployeeAddedDialog")
+    }
+
+    private fun clearData() {
+        with(binding) {
+            nameEditText.text = null
+            mailEditText.text = null
+            latEditText.text = null
+            logEditText.text = null
+        }
     }
 
     private fun checkFields(name: String, mail: String, lat: String, log: String): Boolean =

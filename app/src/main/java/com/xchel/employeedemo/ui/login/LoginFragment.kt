@@ -6,7 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.xchel.employeedemo.R
 import com.xchel.employeedemo.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
@@ -28,15 +33,37 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     private fun listeners() {
         binding.signInButton.setOnClickListener {
+            //val googleConfig = GoogleSignInOptions
+            //    .Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
+            //    .requestIdToken(getString(R.string.web_client_id))
+            //    .requestEmail()
+            //    .build()
 
+            val signInRequest = BeginSignInRequest.builder()
+                .setGoogleIdTokenRequestOptions(
+                    BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                        .setSupported(true)
+                        // Your server's client ID, not your Android client ID.
+                        .setServerClientId(getString(R.string.web_client_id))
+                        // Only show accounts previously used to sign in.
+                        //.setFilterByAuthorizedAccounts(true)
+                        .build()
+                ).build()
+        }
+
+        binding.testButton.setOnClickListener {
+            findNavController().navigate(R.id.menuFragment)
         }
     }
 
     private fun inits() {
-        auth = FirebaseAuth.getInstance()
-        Log.d(TAG, auth.toString())
+
     }
 
     override fun onDestroyView() {

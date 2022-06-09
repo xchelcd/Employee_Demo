@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.menu.employees.NewEmployeeFragment">
+    tools:context=".ui.menu.employees.new_employee.NewEmployeeFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameLayout"
@@ -22,7 +22,8 @@
             android:id="@+id/nameEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Name" />
+            android:hint="Name"
+            android:inputType="textPersonName" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -40,7 +41,8 @@
             android:id="@+id/mailEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Mail" />
+            android:hint="Mail"
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,7 +62,8 @@
             android:id="@+id/latEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Lat" />
+            android:hint="Lat"
+            android:inputType="numberDecimal|numberSigned" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -80,7 +83,8 @@
             android:id="@+id/logEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Log" />
+            android:hint="Log"
+            android:inputType="numberDecimal|numberSigned" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

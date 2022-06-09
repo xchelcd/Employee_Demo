@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cellLayout"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cellLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
@@ -11,6 +11,8 @@
         android:id="@+id/nameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         tools:text="Xchel Alonso Carranza de la O" />
 
 
@@ -18,6 +20,12 @@
         android:id="@+id/emailTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="italic"
         tools:text="xche.co@gmail.com" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
 
 </LinearLayout>
