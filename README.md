@@ -44,3 +44,25 @@ This demo has a clean architecture. View -> ViewModel -> UseCase -> Repository -
 - Navigation Component
 - Maps
 - ViewModel and LiveData
+
+## TODO
+- Download data from the api
+- Unzip data
+- Read data (convert the json to list and update the remote database)
+- Handler internet errors
+- UnitTest
+
+## Directory
+- data
+- - database
+- - model
+- - network
+- - repository
+- di (modules)
+- domain (useCase)
+- ui (viewModel, adapter, viewHolder)
+- - login
+- - menu
+- - - employee
+- - - map
+- util (extras)
