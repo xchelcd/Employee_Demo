@@ -46,9 +46,7 @@ This demo has a clean architecture. View -> ViewModel -> UseCase -> Repository -
 - ViewModel and LiveData
 
 ## TODO
-- Download data from the api
-- Unzip data
-- Read data (convert the json to list and update the remote database)
+- sync data from api (zip), local and remote
 - Handler internet errors
 - UnitTest
 
