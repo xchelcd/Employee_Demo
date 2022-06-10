@@ -10,7 +10,7 @@ import com.xchel.employeedemo.data.model.Employee
 interface EmployeeDao {
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertEmployee(employee: Employee)
+    suspend fun insertEmployee(employee: Employee): Long
 
     @Query("select * from employee_table")
     suspend fun getAllEmployees(): List<Employee>

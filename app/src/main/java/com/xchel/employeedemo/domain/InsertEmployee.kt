@@ -12,13 +12,10 @@ class InsertEmployee @Inject constructor(
 ) {
 
     suspend operator fun invoke(employee: Employee, wasAdded: () -> Unit) {
-        repository.insertEmployeeToFirestore(employee) { flag, id ->
-            CoroutineScope(IO).launch {
-                if (flag) {
-                    wasAdded()
-                    repository.insertEmployeeToLocal(employee)
-                }
-            }
+        val id = repository.insertEmployeeToLocal(employee)
+        employee.id = id
+        repository.insertEmployeeToFirestore(employee) {
+            if (it) wasAdded()
         }
     }
 }

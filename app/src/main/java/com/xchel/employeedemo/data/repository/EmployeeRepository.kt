@@ -21,18 +21,17 @@ class EmployeeRepository @Inject constructor(
     /**
      * @return true if the employee is inserted in remote database
      */
-    fun insertEmployeeToFirestore(employee: Employee, wasAdded: (Boolean, String) -> Unit) {
+    fun insertEmployeeToFirestore(employee: Employee, wasAdded: (Boolean) -> Unit) {
         fireStoreDb.collection(EmployeePath.Employee.name)
             .add(employee.toFirestore()).addOnSuccessListener {
-                wasAdded(true, it.id)
+                wasAdded(true)
             }.addOnFailureListener {
-                wasAdded(false, "")
+                wasAdded(false)
             }
     }
 
-    suspend fun insertEmployeeToLocal(employee: Employee) {
+    suspend fun insertEmployeeToLocal(employee: Employee) =
         employeeDao.insertEmployee(employee)
-    }
 
     suspend fun deleteEmployee(employee: Employee) {
 
@@ -49,11 +48,11 @@ class EmployeeRepository @Inject constructor(
                         val data = doc.data
                         list.add(
                             Employee(
-                                (data["id"] as Long).toInt(),
+                                data["id"] as Long,
                                 data["name"] as String,
                                 convertToLocation(data["location"] as HashMap<String, Double>),
                                 data["mail"] as String,
-                                data["primaryId"] as? String ?: "noId"
+                                //data["primaryId"] as? String ?: "noId"
                             )
                         )
                     }

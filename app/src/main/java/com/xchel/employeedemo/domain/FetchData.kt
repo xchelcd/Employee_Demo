@@ -68,7 +68,7 @@ class FetchData @Inject constructor(
     }
 
     private fun insertData(employee: Employee) {
-        repository.insertEmployeeToFirestore(employee) { flag, id ->
+        repository.insertEmployeeToFirestore(employee) { flag ->
             CoroutineScope(Dispatchers.IO).launch {
                 if (flag) {
                     repository.insertEmployeeToLocal(employee)

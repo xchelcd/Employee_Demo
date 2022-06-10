@@ -9,20 +9,21 @@ import java.io.Serializable
 @Entity(tableName = "employee_table")
 data class Employee(
 
-    @ColumnInfo(name = "id") val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id") var id: Long? = null,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "location") val location: Location,
     @ColumnInfo(name = "mail") val mail: String,
 
-    @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "primary_id") var primaryId: String
+    //@PrimaryKey(autoGenerate = false)
+    //@ColumnInfo(name = "primary_id") var primaryId: String
 ) : Serializable {
 
     fun constructor() {}
 
     fun getMarker(): MarkerOptions = MarkerOptions()
         .position(location.getPosition())
-        .title("${primaryId.take(3)}.- $name ($mail)")
+        .title("$id.- $name ($mail)")
 
     fun toFirestore() = hashMapOf(
         "id" to id,
@@ -32,6 +33,6 @@ data class Employee(
             "log" to location.log
         ),
         "mail" to mail,
-        "primaryId" to primaryId
+        //"primaryId" to primaryId
     )
 }

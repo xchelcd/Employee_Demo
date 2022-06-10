@@ -40,7 +40,7 @@ class NewEmployeeFragment : Fragment() {
                 val log = binding.logEditText.text.toString()
                 if (!checkFields(name, mail, lat, log)) {
                     val location = Location(lat.toDouble(), log.toDouble())
-                    val employee = Employee(0, name, location, mail, java.util.UUID.randomUUID().toString())
+                    val employee = Employee(null, name, location, mail)
                     saveEmployee(employee)
                 } else Toast.makeText(requireContext(), "Something was wrong", Toast.LENGTH_SHORT).show()
             }
