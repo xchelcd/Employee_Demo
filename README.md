@@ -46,7 +46,6 @@ This demo has a clean architecture. View -> ViewModel -> UseCase -> Repository -
 - ViewModel and LiveData
 
 ## TODO
-- sync data from api (zip), local and remote
 - Handler internet errors
 - UnitTest
 
